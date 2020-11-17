@@ -1,18 +1,47 @@
-// You have generated a new plugin project without
-// specifying the `--platforms` flag. A plugin project supports no platforms is generated.
-// To add platforms, run `flutter create -t plugin --platforms <platforms> .` under the same
-// directory. You can also find a detailed instruction on how to add platforms in the `pubspec.yaml` at https://flutter.dev/docs/development/packages-and-plugins/developing-packages#plugin-platforms.
+import 'package:flutter/material.dart';
+import 'package:green_dot/constants.dart';
 
-import 'dart:async';
+class GreenDot extends StatefulWidget {
+  @override
+  _GreenDotState createState() => _GreenDotState();
+}
 
-import 'package:flutter/services.dart';
-
-class GreenDot {
-  static const MethodChannel _channel =
-      const MethodChannel('green_dot');
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+class _GreenDotState extends State<GreenDot> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 60,
+      child: Center(
+        child: Container(
+          child: Center(
+            child: Container(
+              width: 20,
+              height: 20,
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+            ),
+          ),
+          width: 52,
+          height: 52,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.7),
+                  spreadRadius: 0.2,
+                  blurRadius: 7,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  stops: [0.5, 0.6, 1],
+                  colors: [greenColor, mintColor, blueColor])),
+        ),
+      ),
+      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+    );
   }
 }
