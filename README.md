@@ -2,6 +2,17 @@
 
 Naver Green dot style widget by flutter
 
+## Design Spec
+
+### Green Dot
+
+<div align="center">
+    <img src="https://developers.naver.com/proxyapi/rawgit/naver/clova-client-developer-guide/document/ko-KR/Design/UI/VoiceUserInterface/Page_Visual_1_Copy_2.png" width="500">
+</div>
+<div align="center">
+   <A href="https://developers.naver.com/docs/clova/client/Design/UI/Voice_User_Interface.md#GreenDot">Link</A>
+</div>
+
 ## Progress
 
 <div align="center">
