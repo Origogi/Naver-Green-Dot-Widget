@@ -20,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.grey[300],
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
