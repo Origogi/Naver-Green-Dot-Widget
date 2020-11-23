@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:green_dot/constants.dart';
+import 'package:green_dot/util.dart';
+import 'package:tuple/tuple.dart';
 
 class GreenDot extends StatefulWidget {
   @override
@@ -24,6 +26,9 @@ class _GreenDotState extends State<GreenDot> {
       double outerCircleSize = buttonSize + 300 * (isActive ? 1 : 0);
       double midCircleSize = buttonSize - 8 + 100 * (isActive ? 1 : 0);
       double innerCircleSize = buttonSize - 40 + 40 * (isActive ? 1 : 0);
+
+      Tuple2<double, double> originPoint =
+          Tuple2(maxWidth / 2, maxHeight - marginBottom - 40);
 
       return Stack(
         children: [
@@ -92,6 +97,60 @@ class _GreenDotState extends State<GreenDot> {
                   ),
                 ),
               ),
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left:
+                originPoint.item1 - 15 + getXY(90, isActive ? 130.0 : 0).item1,
+            top: originPoint.item2 - getXY(90, isActive ? 130.0 : 0).item2,
+            child: Icon(
+              Icons.search,
+              size: 30,
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left:
+                originPoint.item1 - 15 + getXY(45, isActive ? 130.0 : 0).item1,
+            top: originPoint.item2 - getXY(45, isActive ? 130.0 : 0).item2,
+            child: Icon(
+              Icons.search,
+              size: 30,
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left: originPoint.item1 - 15 + getXY(0, isActive ? 130.0 : 0).item1,
+            top: originPoint.item2 - getXY(0, isActive ? 130.0 : 0).item2,
+            child: Icon(
+              Icons.search,
+              size: 30,
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left:
+                originPoint.item1 - 15 + getXY(-45, isActive ? 130.0 : 0).item1,
+            top: originPoint.item2 - getXY(-45, isActive ? 130.0 : 0).item2,
+            child: Icon(
+              Icons.search,
+              size: 30,
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left:
+                originPoint.item1 - 15 + getXY(-90, isActive ? 130.0 : 0).item1,
+            top: originPoint.item2 - getXY(-90, isActive ? 130.0 : 0).item2,
+            child: Icon(
+              Icons.search,
+              size: 30,
             ),
           ),
         ],
