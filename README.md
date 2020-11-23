@@ -1,4 +1,4 @@
-# Green Dot Widget
+# Green Dot Widget (Inprogress)
 
 Naver Green dot style widget by flutter
 
