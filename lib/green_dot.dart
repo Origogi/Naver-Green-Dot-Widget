@@ -11,6 +11,8 @@ class _GreenDotState extends State<GreenDot> {
   var buttonSize = 60.0;
   var isActive = false;
   final marginBottom = 30.0;
+  final Duration _duration = Duration(milliseconds: 500);
+  final Curve _curve = Curves.easeInOutBack;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _GreenDotState extends State<GreenDot> {
         children: [
           AnimatedPositioned(
             curve: Curves.easeInOutBack,
-            duration: Duration(milliseconds: 300),
+            duration: _duration,
             left: maxWidth / 2 - outerCircleSize2 / 2,
             top: maxHeight -
                 (initialButtonSize + marginBottom) -
@@ -39,26 +41,26 @@ class _GreenDotState extends State<GreenDot> {
                 });
               },
               child: AnimatedContainer(
-                curve: Curves.easeInOutBack,
+                curve: _curve,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, color: Colors.grey[200]),
-                duration: Duration(milliseconds: 300),
+                duration: _duration,
                 width: outerCircleSize2,
                 height: outerCircleSize2,
                 child: Center(
                   child: AnimatedContainer(
-                    curve: Curves.easeInOutBack,
-                    duration: Duration(milliseconds: 300),
+                    curve: _curve,
+                    duration: _duration,
                     width: outerCircleSize,
                     height: outerCircleSize,
                     child: Center(
                       child: AnimatedContainer(
-                        curve: Curves.easeInOutBack,
-                        duration: Duration(milliseconds: 300),
+                        curve: _curve,
+                        duration: _duration,
                         child: Center(
                           child: AnimatedContainer(
-                            curve: Curves.easeInOutBack,
-                            duration: Duration(milliseconds: 300),
+                            curve: _curve,
+                            duration: _duration,
                             width: innerCircleSize,
                             height: innerCircleSize,
                             decoration: BoxDecoration(
