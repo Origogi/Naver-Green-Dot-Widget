@@ -24,8 +24,8 @@ class _GreenDotState extends State<GreenDot> {
 
       double outerCircleSize2 = buttonSize + 550 * (isActive ? 1 : 0);
       double outerCircleSize = buttonSize + 300 * (isActive ? 1 : 0);
-      double midCircleSize = buttonSize - 8 + 100 * (isActive ? 1 : 0);
-      double innerCircleSize = buttonSize - 40 + 40 * (isActive ? 1 : 0);
+      double midCircleSize = buttonSize - 8 + 75 * (isActive ? 1 : 0);
+      double innerCircleSize = buttonSize - 40 + 30 * (isActive ? 1 : 0);
 
       Tuple2<double, double> originPoint =
           Tuple2(maxWidth / 2, maxHeight - marginBottom - 40);
@@ -103,54 +103,157 @@ class _GreenDotState extends State<GreenDot> {
             curve: Curves.easeInOutBack,
             duration: _duration,
             left:
-                originPoint.item1 - 15 + getXY(90, isActive ? 130.0 : 0).item1,
-            top: originPoint.item2 - getXY(90, isActive ? 130.0 : 0).item2,
-            child: Icon(
-              Icons.search,
-              size: 30,
+                originPoint.item1 - 20 + getXY(90, isActive ? 125.0 : 0).item1,
+            top: originPoint.item2 - getXY(90, isActive ? 125.0 : 0).item2,
+            child: AnimatedOpacity(
+              curve: _curve,
+              duration: _duration,
+              opacity: isActive ? 1 : 0,
+              child: InkWell(
+                onTap: () {
+                  if (!isActive) {
+                    setState(() {
+                      isActive = true;
+                    });
+                    return;
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Text('Search')
+                  ],
+                ),
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left: originPoint.item1 -
+                15 +
+                getXY(45, isActive ? 125.0 : 0).item1 -
+                5,
+            top: originPoint.item2 - getXY(45, isActive ? 125.0 : 0).item2 + 15,
+            child: AnimatedOpacity(
+              curve: _curve,
+              duration: _duration,
+              opacity: isActive ? 1 : 0,
+              child: InkWell(
+                onTap: () {
+                  if (!isActive) {
+                    setState(() {
+                      isActive = true;
+                    });
+                    return;
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Text('Search')
+                  ],
+                ),
+              ),
+            ),
+          ),
+          AnimatedPositioned(
+            curve: Curves.easeInOutBack,
+            duration: _duration,
+            left: originPoint.item1 - 30 + getXY(0, isActive ? 125.0 : 0).item1,
+            top: originPoint.item2 - getXY(0, isActive ? 125.0 : 0).item2 + 15,
+            child: AnimatedOpacity(
+              curve: _curve,
+              duration: _duration,
+              opacity: isActive ? 1 : 0,
+              child: InkWell(
+                onTap: () {
+                  if (!isActive) {
+                    setState(() {
+                      isActive = true;
+                    });
+                    return;
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Text('Search')
+                  ],
+                ),
+              ),
             ),
           ),
           AnimatedPositioned(
             curve: Curves.easeInOutBack,
             duration: _duration,
             left:
-                originPoint.item1 - 15 + getXY(45, isActive ? 130.0 : 0).item1,
-            top: originPoint.item2 - getXY(45, isActive ? 130.0 : 0).item2,
-            child: Icon(
-              Icons.search,
-              size: 30,
-            ),
-          ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
-            left: originPoint.item1 - 15 + getXY(0, isActive ? 130.0 : 0).item1,
-            top: originPoint.item2 - getXY(0, isActive ? 130.0 : 0).item2,
-            child: Icon(
-              Icons.search,
-              size: 30,
+                originPoint.item1 + getXY(-45, isActive ? 125.0 : 0).item1 - 20,
+            top:
+                originPoint.item2 - getXY(-45, isActive ? 125.0 : 0).item2 + 15,
+            child: AnimatedOpacity(
+              curve: _curve,
+              duration: _duration,
+              opacity: isActive ? 1 : 0,
+              child: InkWell(
+                onTap: () {
+                  if (!isActive) {
+                    setState(() {
+                      isActive = true;
+                    });
+                    return;
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Text('Search')
+                  ],
+                ),
+              ),
             ),
           ),
           AnimatedPositioned(
             curve: Curves.easeInOutBack,
             duration: _duration,
             left:
-                originPoint.item1 - 15 + getXY(-45, isActive ? 130.0 : 0).item1,
-            top: originPoint.item2 - getXY(-45, isActive ? 130.0 : 0).item2,
-            child: Icon(
-              Icons.search,
-              size: 30,
-            ),
-          ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
-            left:
-                originPoint.item1 - 15 + getXY(-90, isActive ? 130.0 : 0).item1,
-            top: originPoint.item2 - getXY(-90, isActive ? 130.0 : 0).item2,
-            child: Icon(
-              Icons.search,
-              size: 30,
+                originPoint.item1 + getXY(-90, isActive ? 125.0 : 0).item1 - 15,
+            top: originPoint.item2 - getXY(-90, isActive ? 125.0 : 0).item2,
+            child: AnimatedOpacity(
+              curve: _curve,
+              duration: _duration,
+              opacity: isActive ? 1 : 0,
+              child: InkWell(
+                onTap: () {
+                  if (!isActive) {
+                    setState(() {
+                      isActive = true;
+                    });
+                    return;
+                  }
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.search,
+                      size: 30,
+                    ),
+                    Text('Search')
+                  ],
+                ),
+              ),
             ),
           ),
         ],
