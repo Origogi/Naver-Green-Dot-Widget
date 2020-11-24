@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:green_dot/constants.dart';
 import 'package:green_dot/util.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:tuple/tuple.dart';
+
+import 'icon_title.dart';
 
 class GreenDot extends StatefulWidget {
   @override
@@ -84,15 +87,7 @@ class _GreenDotState extends State<GreenDot> {
                     return;
                   }
                 },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    Text('Search')
-                  ],
-                ),
+                child: IconTitle('검색', LineIcons.search),
               ),
             ),
           ),
@@ -117,22 +112,14 @@ class _GreenDotState extends State<GreenDot> {
                     return;
                   }
                 },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    Text('Search')
-                  ],
-                ),
+                child: IconTitle('내 주변', LineIcons.map_marker),
               ),
             ),
           ),
           AnimatedPositioned(
             curve: Curves.easeInOutBack,
             duration: _duration,
-            left: originPoint.item1 - 30 + getXY(0, isActive ? 125.0 : 0).item1,
+            left: originPoint.item1 - 15 + getXY(0, isActive ? 125.0 : 0).item1,
             top: originPoint.item2 - getXY(0, isActive ? 125.0 : 0).item2 + 15,
             child: AnimatedOpacity(
               curve: _curve,
@@ -147,15 +134,7 @@ class _GreenDotState extends State<GreenDot> {
                     return;
                   }
                 },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    Text('Search')
-                  ],
-                ),
+                child: IconTitle('음성', LineIcons.microphone),
               ),
             ),
           ),
@@ -171,24 +150,15 @@ class _GreenDotState extends State<GreenDot> {
               duration: _duration,
               opacity: isActive ? 1 : 0,
               child: InkWell(
-                onTap: () {
-                  if (!isActive) {
-                    setState(() {
-                      isActive = true;
-                    });
-                    return;
-                  }
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    Text('Search')
-                  ],
-                ),
-              ),
+                  onTap: () {
+                    if (!isActive) {
+                      setState(() {
+                        isActive = true;
+                      });
+                      return;
+                    }
+                  },
+                  child: IconTitle('음악', LineIcons.music)),
             ),
           ),
           AnimatedPositioned(
@@ -202,24 +172,15 @@ class _GreenDotState extends State<GreenDot> {
               duration: _duration,
               opacity: isActive ? 1 : 0,
               child: InkWell(
-                onTap: () {
-                  if (!isActive) {
-                    setState(() {
-                      isActive = true;
-                    });
-                    return;
-                  }
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    Text('Search')
-                  ],
-                ),
-              ),
+                  onTap: () {
+                    if (!isActive) {
+                      setState(() {
+                        isActive = true;
+                      });
+                      return;
+                    }
+                  },
+                  child: IconTitle('렌즈', LineIcons.camera)),
             ),
           ),
           AnimatedPositioned(
