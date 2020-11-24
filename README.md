@@ -17,10 +17,11 @@ Naver Green dot style widget by flutter
 
 <div align="center">
 
-|v0.0.1|v0.0.2|
-|------|---|
-|![010](https://user-images.githubusercontent.com/35194820/99490550-69709900-29ad-11eb-8d76-644199601a68.gif)|![0 0 2](https://user-images.githubusercontent.com/35194820/99964676-05980700-2dd7-11eb-8e98-38e012dc38f3.gif)
+|v0.0.1|v0.0.2|v0.0.3|
+|------|---|------|
+|![010](https://user-images.githubusercontent.com/35194820/99490550-69709900-29ad-11eb-8d76-644199601a68.gif)|![0 0 2](https://user-images.githubusercontent.com/35194820/99964676-05980700-2dd7-11eb-8e98-38e012dc38f3.gif)|![0 0 3](https://user-images.githubusercontent.com/35194820/100101069-17e07680-2ea5-11eb-9e93-045e93fe60f5.gif)
 |
+
 </div>
 
 ## Reference
