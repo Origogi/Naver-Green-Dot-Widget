@@ -58,40 +58,6 @@ class _GreenDotState extends State<GreenDot> {
                     duration: _duration,
                     width: outerCircleSize,
                     height: outerCircleSize,
-                    child: Center(
-                      child: AnimatedContainer(
-                        curve: _curve,
-                        duration: _duration,
-                        child: Center(
-                          child: AnimatedContainer(
-                            curve: _curve,
-                            duration: _duration,
-                            width: innerCircleSize,
-                            height: innerCircleSize,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.white),
-                          ),
-                        ),
-                        width: midCircleSize,
-                        height: midCircleSize,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.7),
-                                spreadRadius: 0.2,
-                                blurRadius: 7,
-                                offset:
-                                    Offset(0, 3), // changes position of shadow
-                              ),
-                            ],
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                stops: [0.5, 0.6, 1],
-                                colors: [greenColor, mintColor, blueColor])),
-                      ),
-                    ),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle, color: Colors.white),
                   ),
@@ -256,6 +222,50 @@ class _GreenDotState extends State<GreenDot> {
               ),
             ),
           ),
+          AnimatedPositioned(
+            curve: _curve,
+            duration: _duration,
+            left: maxWidth / 2 - midCircleSize / 2,
+            top: maxHeight - (56 + marginBottom) - 10 * (isActive ? 1 : 0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  isActive = !isActive;
+                });
+              },
+              child: AnimatedContainer(
+                curve: _curve,
+                duration: _duration,
+                child: Center(
+                  child: AnimatedContainer(
+                    curve: _curve,
+                    duration: _duration,
+                    width: innerCircleSize,
+                    height: innerCircleSize,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: Colors.white),
+                  ),
+                ),
+                width: midCircleSize,
+                height: midCircleSize,
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.7),
+                        spreadRadius: 0.2,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [0.5, 0.6, 1],
+                        colors: [greenColor, mintColor, blueColor])),
+              ),
+            ),
+          )
         ],
       );
     });
