@@ -11,13 +11,42 @@ class GreenDot extends StatefulWidget {
   _GreenDotState createState() => _GreenDotState();
 }
 
-class _GreenDotState extends State<GreenDot> {
+class _GreenDotState extends State<GreenDot>
+    with SingleTickerProviderStateMixin {
   final initialButtonSize = 60.0;
   var buttonSize = 60.0;
   var isActive = false;
+  var animationValue = 0.0;
+
   final marginBottom = 30.0;
   final Duration _duration = Duration(milliseconds: 500);
   final Curve _curve = Curves.easeInOutBack;
+
+  Animation<double> _scaleAnimation;
+  AnimationController _scaleController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: _duration,
+    );
+    _scaleAnimation = CurvedAnimation(
+      parent: _scaleController,
+      curve: _curve,
+    );
+    _scaleAnimation.addListener(() {
+      setState(() {
+        if (_scaleAnimation != null && _scaleAnimation.value != null)
+          animationValue = _scaleAnimation.value;
+      });
+    });
+
+    _scaleController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {}
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,40 +54,39 @@ class _GreenDotState extends State<GreenDot> {
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 550 * (isActive ? 1 : 0);
-      double outerCircleSize = buttonSize + 300 * (isActive ? 1 : 0);
-      double midCircleSize = buttonSize - 8 + 75 * (isActive ? 1 : 0);
-      double innerCircleSize = buttonSize - 40 + 30 * (isActive ? 1 : 0);
+      double outerCircleSize2 = buttonSize + 550 * animationValue;
+      double outerCircleSize = buttonSize + 300 * animationValue;
+      double midCircleSize = buttonSize - 8 + 75 * animationValue;
+      double innerCircleSize = buttonSize - 40 + 30 * animationValue;
 
       Tuple2<double, double> originPoint =
           Tuple2(maxWidth / 2, maxHeight - marginBottom - 40);
 
       return Stack(
         children: [
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
+          Positioned(
             left: maxWidth / 2 - outerCircleSize2 / 2,
             top: maxHeight -
                 (initialButtonSize + marginBottom) -
-                250 * (isActive ? 1 : 0),
+                250 * animationValue,
             child: InkWell(
               onTap: () {
                 setState(() {
+                  if (isActive) {
+                    _scaleController.reverse();
+                  } else {
+                    _scaleController.forward();
+                  }
                   isActive = !isActive;
                 });
               },
-              child: AnimatedContainer(
-                curve: _curve,
+              child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, color: Colors.grey[200]),
-                duration: _duration,
                 width: outerCircleSize2,
                 height: outerCircleSize2,
                 child: Center(
-                  child: AnimatedContainer(
-                    curve: _curve,
-                    duration: _duration,
+                  child: Container(
                     width: outerCircleSize,
                     height: outerCircleSize,
                     decoration: BoxDecoration(
@@ -68,139 +96,86 @@ class _GreenDotState extends State<GreenDot> {
               ),
             ),
           ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
-            left:
-                originPoint.item1 - 20 + getXY(90, isActive ? 125.0 : 0).item1,
-            top: originPoint.item2 - getXY(90, isActive ? 125.0 : 0).item2,
+          Positioned(
+            left: originPoint.item1 -
+                20 +
+                getXY(90, 125.0 * animationValue).item1,
+            top: originPoint.item2 - getXY(90, 125.0 * animationValue).item2,
             child: AnimatedOpacity(
-              curve: _curve,
               duration: _duration,
+              curve: _curve,
               opacity: isActive ? 1 : 0,
-              child: InkWell(
-                onTap: () {
-                  if (!isActive) {
-                    setState(() {
-                      isActive = true;
-                    });
-                    return;
-                  }
-                },
-                child: IconTitle('검색', LineIcons.search),
-              ),
+              child: IconTitle('검색', LineIcons.search),
             ),
           ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
+          Positioned(
             left: originPoint.item1 -
                 15 +
-                getXY(45, isActive ? 125.0 : 0).item1 -
+                getXY(45, 125.0 * animationValue).item1 -
                 5,
-            top: originPoint.item2 - getXY(45, isActive ? 125.0 : 0).item2 + 15,
+            top: originPoint.item2 -
+                getXY(45, 125.0 * animationValue).item2 +
+                15,
             child: AnimatedOpacity(
-              curve: _curve,
               duration: _duration,
+              curve: _curve,
               opacity: isActive ? 1 : 0,
-              child: InkWell(
-                onTap: () {
-                  if (!isActive) {
-                    setState(() {
-                      isActive = true;
-                    });
-                    return;
-                  }
-                },
-                child: IconTitle('내 주변', LineIcons.map_marker),
-              ),
+              child: IconTitle('내 주변', LineIcons.map_marker),
             ),
           ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
-            left: originPoint.item1 - 15 + getXY(0, isActive ? 125.0 : 0).item1,
-            top: originPoint.item2 - getXY(0, isActive ? 125.0 : 0).item2 + 15,
-            child: AnimatedOpacity(
-              curve: _curve,
-              duration: _duration,
-              opacity: isActive ? 1 : 0,
-              child: InkWell(
-                onTap: () {
-                  if (!isActive) {
-                    setState(() {
-                      isActive = true;
-                    });
-                    return;
-                  }
-                },
-                child: IconTitle('음성', LineIcons.microphone),
-              ),
-            ),
-          ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
+          Positioned(
             left:
-                originPoint.item1 + getXY(-45, isActive ? 125.0 : 0).item1 - 20,
+                originPoint.item1 - 15 + getXY(0, 125.0 * animationValue).item1,
             top:
-                originPoint.item2 - getXY(-45, isActive ? 125.0 : 0).item2 + 15,
+                originPoint.item2 - getXY(0, 125.0 * animationValue).item2 + 15,
             child: AnimatedOpacity(
-              curve: _curve,
               duration: _duration,
+              curve: _curve,
               opacity: isActive ? 1 : 0,
-              child: InkWell(
-                  onTap: () {
-                    if (!isActive) {
-                      setState(() {
-                        isActive = true;
-                      });
-                      return;
-                    }
-                  },
-                  child: IconTitle('음악', LineIcons.music)),
+              child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
-          AnimatedPositioned(
-            curve: Curves.easeInOutBack,
-            duration: _duration,
-            left:
-                originPoint.item1 + getXY(-90, isActive ? 125.0 : 0).item1 - 15,
-            top: originPoint.item2 - getXY(-90, isActive ? 125.0 : 0).item2,
+          Positioned(
+            left: originPoint.item1 +
+                getXY(-45, 125.0 * animationValue).item1 -
+                20,
+            top: originPoint.item2 -
+                getXY(-45, 125.0 * animationValue).item2 +
+                15,
             child: AnimatedOpacity(
-              curve: _curve,
-              duration: _duration,
-              opacity: isActive ? 1 : 0,
-              child: InkWell(
-                  onTap: () {
-                    if (!isActive) {
-                      setState(() {
-                        isActive = true;
-                      });
-                      return;
-                    }
-                  },
-                  child: IconTitle('렌즈', LineIcons.camera)),
-            ),
+                duration: _duration,
+                curve: _curve,
+                opacity: isActive ? 1 : 0,
+                child: IconTitle('음악', LineIcons.music)),
           ),
-          AnimatedPositioned(
-            curve: _curve,
-            duration: _duration,
+          Positioned(
+            left: originPoint.item1 +
+                getXY(-90, 125.0 * animationValue).item1 -
+                15,
+            top: originPoint.item2 - getXY(-90, 125.0 * animationValue).item2,
+            child: AnimatedOpacity(
+                duration: _duration,
+                curve: _curve,
+                opacity: isActive ? 1 : 0,
+                child: IconTitle('렌즈', LineIcons.camera)),
+          ),
+          Positioned(
             left: maxWidth / 2 - midCircleSize / 2,
-            top: maxHeight - (56 + marginBottom) - 10 * (isActive ? 1 : 0),
+            top: maxHeight - (56 + marginBottom) - 10 * animationValue,
             child: GestureDetector(
               onTap: () {
                 setState(() {
+                  if (isActive) {
+                    _scaleController.reverse();
+                  } else {
+                    _scaleController.forward();
+                  }
                   isActive = !isActive;
                 });
               },
-              child: AnimatedContainer(
-                curve: _curve,
-                duration: _duration,
+              child: Container(
                 child: Center(
-                  child: AnimatedContainer(
-                    curve: _curve,
-                    duration: _duration,
+                  child: Container(
                     width: innerCircleSize,
                     height: innerCircleSize,
                     decoration: BoxDecoration(
@@ -226,7 +201,21 @@ class _GreenDotState extends State<GreenDot> {
                         colors: [greenColor, mintColor, blueColor])),
               ),
             ),
-          )
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                15 +
+                getXY(90.0 - 90.0 * animationValue, 240).item1,
+            top: originPoint.item2 -
+                getXY(90.0 - 90.0 * animationValue, 240).item2 +
+                15,
+            child: AnimatedOpacity(
+              duration: _duration,
+              curve: _curve,
+              opacity: isActive ? 1 : 0,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
         ],
       );
     });

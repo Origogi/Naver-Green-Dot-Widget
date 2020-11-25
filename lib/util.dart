@@ -4,7 +4,6 @@ import 'package:tuple/tuple.dart';
 
 Tuple2<double, double> getXY(double degree, double radius) {
   double radians = getRadiansFromDegree(degree);
-  print("${sin(radians)} ${cos(radians)}");
   double x = sin(radians) * radius;
   double y = cos(radians) * radius;
 
