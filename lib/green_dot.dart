@@ -18,9 +18,9 @@ class _GreenDotState extends State<GreenDot>
   var isActive = false;
   var animationValue = 0.0;
 
-  final marginBottom = 30.0;
+  final marginBottom = 40.0;
   final Duration _duration = Duration(milliseconds: 500);
-  final Curve _curve = Curves.easeInOutBack;
+  final Curve _curve = Curves.linear;
 
   Animation<double> _scaleAnimation;
   AnimationController _scaleController;
@@ -54,21 +54,19 @@ class _GreenDotState extends State<GreenDot>
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 550 * animationValue;
-      double outerCircleSize = buttonSize + 300 * animationValue;
-      double midCircleSize = buttonSize - 8 + 75 * animationValue;
-      double innerCircleSize = buttonSize - 40 + 30 * animationValue;
+      double outerCircleSize2 = buttonSize + 430 * animationValue;
+      double outerCircleSize = buttonSize + 250 * animationValue;
+      double midCircleSize = buttonSize - 15 + 75 * animationValue;
+      double innerCircleSize = buttonSize - 50 + 30 * animationValue;
 
       Tuple2<double, double> originPoint =
-          Tuple2(maxWidth / 2, maxHeight - marginBottom - 40);
+          Tuple2(maxWidth / 2, maxHeight - marginBottom);
 
       return Stack(
         children: [
           Positioned(
-            left: maxWidth / 2 - outerCircleSize2 / 2,
-            top: maxHeight -
-                (initialButtonSize + marginBottom) -
-                250 * animationValue,
+            left: originPoint.item1 - outerCircleSize2 / 2,
+            top: originPoint.item2 - outerCircleSize2 / 2,
             child: InkWell(
               onTap: () {
                 setState(() {
@@ -98,70 +96,63 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                20 +
-                getXY(90, 125.0 * animationValue).item1,
-            top: originPoint.item2 - getXY(90, 125.0 * animationValue).item2,
-            child: AnimatedOpacity(
-              duration: _duration,
-              curve: _curve,
+                getXY(-90, 110.0 * animationValue).item1 -
+                15,
+            top: originPoint.item2 +
+                getXY(-90, 110.0 * animationValue).item2 -
+                15,
+            child: Opacity(
               opacity: isActive ? 1 : 0,
               child: IconTitle('검색', LineIcons.search),
             ),
           ),
           Positioned(
             left: originPoint.item1 -
-                15 +
-                getXY(45, 125.0 * animationValue).item1 -
-                5,
-            top: originPoint.item2 -
-                getXY(45, 125.0 * animationValue).item2 +
+                getXY(-45, 110.0 * animationValue).item1 -
                 15,
-            child: AnimatedOpacity(
-              duration: _duration,
-              curve: _curve,
+            top: originPoint.item2 -
+                getXY(-45, 110.0 * animationValue).item2 -
+                15,
+            child: Opacity(
               opacity: isActive ? 1 : 0,
               child: IconTitle('내 주변', LineIcons.map_marker),
             ),
           ),
           Positioned(
             left:
-                originPoint.item1 - 15 + getXY(0, 125.0 * animationValue).item1,
+                originPoint.item1 + getXY(0, 110.0 * animationValue).item1 - 15,
             top:
-                originPoint.item2 - getXY(0, 125.0 * animationValue).item2 + 15,
-            child: AnimatedOpacity(
-              duration: _duration,
-              curve: _curve,
+                originPoint.item2 - getXY(0, 110.0 * animationValue).item2 - 15,
+            child: Opacity(
               opacity: isActive ? 1 : 0,
               child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
           Positioned(
             left: originPoint.item1 +
-                getXY(-45, 125.0 * animationValue).item1 -
-                20,
-            top: originPoint.item2 -
-                getXY(-45, 125.0 * animationValue).item2 +
+                getXY(-45, 110.0 * animationValue).item1 -
                 15,
-            child: AnimatedOpacity(
-                duration: _duration,
-                curve: _curve,
+            top: originPoint.item2 -
+                getXY(-45, 110.0 * animationValue).item2 -
+                15,
+            child: Opacity(
                 opacity: isActive ? 1 : 0,
                 child: IconTitle('음악', LineIcons.music)),
           ),
           Positioned(
             left: originPoint.item1 +
-                getXY(-90, 125.0 * animationValue).item1 -
+                getXY(-90, 110.0 * animationValue).item1 -
                 15,
-            top: originPoint.item2 - getXY(-90, 125.0 * animationValue).item2,
-            child: AnimatedOpacity(
-                duration: _duration,
-                curve: _curve,
+            top: originPoint.item2 -
+                getXY(-90, 110.0 * animationValue).item2 -
+                15,
+            child: Opacity(
                 opacity: isActive ? 1 : 0,
                 child: IconTitle('렌즈', LineIcons.camera)),
           ),
           Positioned(
-            left: maxWidth / 2 - midCircleSize / 2,
-            top: maxHeight - (56 + marginBottom) - 10 * animationValue,
+            left: originPoint.item1 - midCircleSize / 2,
+            top: originPoint.item2 - midCircleSize / 2,
             child: GestureDetector(
               onTap: () {
                 setState(() {
@@ -204,15 +195,25 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                15 +
-                getXY(90.0 - 90.0 * animationValue, 240).item1,
-            top: originPoint.item2 -
-                getXY(90.0 - 90.0 * animationValue, 240).item2 +
+                getXY(90.0 - 90.0 * animationValue, 200).item1 -
                 15,
-            child: AnimatedOpacity(
-              duration: _duration,
-              curve: _curve,
-              opacity: isActive ? 1 : 0,
+            top: originPoint.item2 -
+                getXY(90.0 - 90.0 * animationValue, 200).item2 -
+                15,
+            child: Opacity(
+              opacity: 1,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(70.0 - 90.0 * animationValue, 200).item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(70.0 - 90.0 * animationValue, 200).item2 -
+                15,
+            child: Opacity(
+              opacity: 1,
               child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
