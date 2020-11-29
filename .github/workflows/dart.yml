@@ -24,7 +24,7 @@ jobs:
           git config --global user.email rlawjdxo1212@naver.com
           git config --global user.name origogi
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/Origogi/Vertical_Card_Pager.git
+          git remote add origin https://${{secrets.commit_secret}}@https://github.com/Origogi/Naver-Green-Dot-Widget
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
