@@ -12,16 +12,14 @@ class GreenDot extends StatefulWidget {
 }
 
 class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
-  final initialButtonSize = 60.0;
-  var buttonSize = 60.0;
-  var isActive = false;
+  final buttonSize = 60.0;
 
+  var isActive = false;
   var _scaleValue = 0.0;
   var _innerIconOpacityValue = 0.0;
   var _outerIconOpacityValue = 0.0;
 
   var _movingValue = 0.0;
-
   final marginBottom = 40.0;
 
   Animation<double> _scaleAnimation;
