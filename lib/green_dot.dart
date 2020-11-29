@@ -17,12 +17,12 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   var isActive = false;
 
   var _scaleValue = 0.0;
-  var _opacityValue = 0.0;
+  var _innerIconOpacityValue = 0.0;
+  var _outerIconOpacityValue = 0.0;
+
   var _movingValue = 0.0;
 
   final marginBottom = 40.0;
-  final Duration _duration = Duration(milliseconds: 500);
-  final Curve _curve = Curves.linear;
 
   Animation<double> _scaleAnimation;
   AnimationController _scaleController;
@@ -35,33 +35,53 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     super.initState();
     _scaleController = AnimationController(
       vsync: this,
-      duration: _duration,
+      duration: Duration(milliseconds: 500),
     );
     _scaleAnimation = CurvedAnimation(
       parent: _scaleController,
-      curve: _curve,
+      curve: Curves.easeInOutBack,
     );
 
     _movingController = AnimationController(
       vsync: this,
-      duration: _duration,
+      duration: Duration(milliseconds: 300),
     );
     _movingAnimation = CurvedAnimation(
       parent: _movingController,
-      curve: _curve,
+      curve: Curves.linear,
     );
 
     _scaleAnimation.addListener(() {
       setState(() {
-        if (_scaleAnimation != null && _scaleAnimation.value != null)
-          _scaleValue = _scaleAnimation.value;
-        _opacityValue = _scaleAnimation.value;
+        _scaleValue = _scaleAnimation.value;
+        _innerIconOpacityValue = _scaleAnimation.value;
+
+        if (isActive && _scaleValue == 1.0) {
+          _outerIconOpacityValue = 1.0;
+        } else if (!isActive) {
+          _outerIconOpacityValue = _innerIconOpacityValue;
+        }
+
+        if (_innerIconOpacityValue > 1 || _outerIconOpacityValue > 1) {
+          _innerIconOpacityValue = 1;
+          _outerIconOpacityValue = 1;
+        }
+        if (_innerIconOpacityValue < 0 || _outerIconOpacityValue < 0) {
+          _innerIconOpacityValue = 0;
+          _outerIconOpacityValue = 0;
+        }
       });
     });
 
     _scaleController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _movingController.forward(from: 0.0);
+      } else if (status == AnimationStatus.dismissed) {
+        _movingController.reset();
+      } else if (status == AnimationStatus.reverse) {
+        _outerIconOpacityValue = _innerIconOpacityValue;
+      } else {
+        _outerIconOpacityValue = 0.0;
       }
     });
 
@@ -69,12 +89,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       setState(() {
         _movingValue = _movingAnimation.value;
       });
-    });
-
-    _movingController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        // _movingController.reset();
-      }
     });
   }
 
@@ -129,7 +143,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 originPoint.item1 - getXY(-90, 110.0 * _scaleValue).item1 - 15,
             top: originPoint.item2 + getXY(-90, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: _opacityValue,
+              opacity: _innerIconOpacityValue,
               child: IconTitle('검색', LineIcons.search),
             ),
           ),
@@ -138,7 +152,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 originPoint.item1 - getXY(-45, 110.0 * _scaleValue).item1 - 15,
             top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: _opacityValue,
+              opacity: _innerIconOpacityValue,
               child: IconTitle('내 주변', LineIcons.map_marker),
             ),
           ),
@@ -146,7 +160,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
             left: originPoint.item1 + getXY(0, 110.0 * _scaleValue).item1 - 15,
             top: originPoint.item2 - getXY(0, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: _opacityValue,
+              opacity: _innerIconOpacityValue,
               child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
@@ -155,7 +169,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 originPoint.item1 + getXY(-45, 110.0 * _scaleValue).item1 - 15,
             top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-                opacity: _opacityValue,
+                opacity: _innerIconOpacityValue,
                 child: IconTitle('음악', LineIcons.music)),
           ),
           Positioned(
@@ -163,8 +177,74 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 originPoint.item1 + getXY(-90, 110.0 * _scaleValue).item1 - 15,
             top: originPoint.item2 - getXY(-90, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-                opacity: _opacityValue,
+                opacity: _innerIconOpacityValue,
                 child: IconTitle('렌즈', LineIcons.camera)),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(-65.0 + 110.0 * _movingValue, 200.0 * _scaleValue).item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(-65.0 + 110.0 * _movingValue, 200.0 * _scaleValue).item2 -
+                15,
+            child: Opacity(
+              opacity: _outerIconOpacityValue,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(-87.5 + 110.0 * _movingValue, 200.0 * _scaleValue).item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(-87.5 + 110.0 * _movingValue, 200.0 * _scaleValue).item2 -
+                15,
+            child: Opacity(
+              opacity: _outerIconOpacityValue,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(-110.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(-110.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item2 -
+                15,
+            child: Opacity(
+              opacity: _outerIconOpacityValue,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(-132.5 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(-132.5 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item2 -
+                15,
+            child: Opacity(
+              opacity: _outerIconOpacityValue,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 -
+                getXY(-155.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item1 -
+                15,
+            top: originPoint.item2 -
+                getXY(-155.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                    .item2 -
+                15,
+            child: Opacity(
+              opacity: _outerIconOpacityValue,
+              child: IconTitle('음성', LineIcons.microphone),
+            ),
           ),
           Positioned(
             left: originPoint.item1 - midCircleSize / 2,
@@ -207,30 +287,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                         stops: [0.5, 0.6, 1],
                         colors: [greenColor, mintColor, blueColor])),
               ),
-            ),
-          ),
-          Positioned(
-            left: originPoint.item1 -
-                getXY(90.0 - 90.0 * _movingValue, 200).item1 -
-                15,
-            top: originPoint.item2 -
-                getXY(90.0 - 90.0 * _movingValue, 200).item2 -
-                15,
-            child: Opacity(
-              opacity: 1,
-              child: IconTitle('음성', LineIcons.microphone),
-            ),
-          ),
-          Positioned(
-            left: originPoint.item1 -
-                getXY(70.0 - 90.0 * _movingValue, 200).item1 -
-                15,
-            top: originPoint.item2 -
-                getXY(70.0 - 90.0 * _movingValue, 200).item2 -
-                15,
-            child: Opacity(
-              opacity: 1,
-              child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
         ],
