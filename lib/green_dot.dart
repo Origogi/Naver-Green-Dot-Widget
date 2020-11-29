@@ -35,7 +35,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     super.initState();
     _scaleController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: Duration(milliseconds: 400),
     );
     _scaleAnimation = CurvedAnimation(
       parent: _scaleController,
