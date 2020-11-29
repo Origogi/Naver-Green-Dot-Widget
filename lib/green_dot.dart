@@ -16,7 +16,8 @@ class _GreenDotState extends State<GreenDot>
   final initialButtonSize = 60.0;
   var buttonSize = 60.0;
   var isActive = false;
-  var animationValue = 0.0;
+  var scaleValue = 0.0;
+  var opacityValue = 0.0;
 
   final marginBottom = 40.0;
   final Duration _duration = Duration(milliseconds: 500);
@@ -39,7 +40,8 @@ class _GreenDotState extends State<GreenDot>
     _scaleAnimation.addListener(() {
       setState(() {
         if (_scaleAnimation != null && _scaleAnimation.value != null)
-          animationValue = _scaleAnimation.value;
+          scaleValue = _scaleAnimation.value;
+        opacityValue = _scaleAnimation.value;
       });
     });
 
@@ -54,10 +56,10 @@ class _GreenDotState extends State<GreenDot>
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 430 * animationValue;
-      double outerCircleSize = buttonSize + 250 * animationValue;
-      double midCircleSize = buttonSize - 15 + 75 * animationValue;
-      double innerCircleSize = buttonSize - 50 + 30 * animationValue;
+      double outerCircleSize2 = buttonSize + 430 * scaleValue;
+      double outerCircleSize = buttonSize + 250 * scaleValue;
+      double midCircleSize = buttonSize - 15 + 75 * scaleValue;
+      double innerCircleSize = buttonSize - 50 + 30 * scaleValue;
 
       Tuple2<double, double> originPoint =
           Tuple2(maxWidth / 2, maxHeight - marginBottom);
@@ -95,59 +97,40 @@ class _GreenDotState extends State<GreenDot>
             ),
           ),
           Positioned(
-            left: originPoint.item1 -
-                getXY(-90, 110.0 * animationValue).item1 -
-                15,
-            top: originPoint.item2 +
-                getXY(-90, 110.0 * animationValue).item2 -
-                15,
+            left: originPoint.item1 - getXY(-90, 110.0 * scaleValue).item1 - 15,
+            top: originPoint.item2 + getXY(-90, 110.0 * scaleValue).item2 - 15,
             child: Opacity(
-              opacity: isActive ? 1 : 0,
+              opacity: opacityValue,
               child: IconTitle('검색', LineIcons.search),
             ),
           ),
           Positioned(
-            left: originPoint.item1 -
-                getXY(-45, 110.0 * animationValue).item1 -
-                15,
-            top: originPoint.item2 -
-                getXY(-45, 110.0 * animationValue).item2 -
-                15,
+            left: originPoint.item1 - getXY(-45, 110.0 * scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-45, 110.0 * scaleValue).item2 - 15,
             child: Opacity(
-              opacity: isActive ? 1 : 0,
+              opacity: opacityValue,
               child: IconTitle('내 주변', LineIcons.map_marker),
             ),
           ),
           Positioned(
-            left:
-                originPoint.item1 + getXY(0, 110.0 * animationValue).item1 - 15,
-            top:
-                originPoint.item2 - getXY(0, 110.0 * animationValue).item2 - 15,
+            left: originPoint.item1 + getXY(0, 110.0 * scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(0, 110.0 * scaleValue).item2 - 15,
             child: Opacity(
-              opacity: isActive ? 1 : 0,
+              opacity: opacityValue,
               child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
           Positioned(
-            left: originPoint.item1 +
-                getXY(-45, 110.0 * animationValue).item1 -
-                15,
-            top: originPoint.item2 -
-                getXY(-45, 110.0 * animationValue).item2 -
-                15,
+            left: originPoint.item1 + getXY(-45, 110.0 * scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-45, 110.0 * scaleValue).item2 - 15,
             child: Opacity(
-                opacity: isActive ? 1 : 0,
-                child: IconTitle('음악', LineIcons.music)),
+                opacity: opacityValue, child: IconTitle('음악', LineIcons.music)),
           ),
           Positioned(
-            left: originPoint.item1 +
-                getXY(-90, 110.0 * animationValue).item1 -
-                15,
-            top: originPoint.item2 -
-                getXY(-90, 110.0 * animationValue).item2 -
-                15,
+            left: originPoint.item1 + getXY(-90, 110.0 * scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-90, 110.0 * scaleValue).item2 - 15,
             child: Opacity(
-                opacity: isActive ? 1 : 0,
+                opacity: opacityValue,
                 child: IconTitle('렌즈', LineIcons.camera)),
           ),
           Positioned(
@@ -195,10 +178,10 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(90.0 - 90.0 * animationValue, 200).item1 -
+                getXY(90.0 - 90.0 * scaleValue, 200).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(90.0 - 90.0 * animationValue, 200).item2 -
+                getXY(90.0 - 90.0 * scaleValue, 200).item2 -
                 15,
             child: Opacity(
               opacity: 1,
@@ -207,10 +190,10 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(70.0 - 90.0 * animationValue, 200).item1 -
+                getXY(70.0 - 90.0 * scaleValue, 200).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(70.0 - 90.0 * animationValue, 200).item2 -
+                getXY(70.0 - 90.0 * scaleValue, 200).item2 -
                 15,
             child: Opacity(
               opacity: 1,
