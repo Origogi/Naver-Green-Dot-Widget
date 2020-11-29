@@ -11,13 +11,14 @@ class GreenDot extends StatefulWidget {
   _GreenDotState createState() => _GreenDotState();
 }
 
-class _GreenDotState extends State<GreenDot>
-    with SingleTickerProviderStateMixin {
+class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   final initialButtonSize = 60.0;
   var buttonSize = 60.0;
   var isActive = false;
-  var scaleValue = 0.0;
-  var opacityValue = 0.0;
+
+  var _scaleValue = 0.0;
+  var _opacityValue = 0.0;
+  var _movingValue = 0.0;
 
   final marginBottom = 40.0;
   final Duration _duration = Duration(milliseconds: 500);
@@ -25,6 +26,9 @@ class _GreenDotState extends State<GreenDot>
 
   Animation<double> _scaleAnimation;
   AnimationController _scaleController;
+
+  Animation<double> _movingAnimation;
+  AnimationController _movingController;
 
   @override
   void initState() {
@@ -37,16 +41,40 @@ class _GreenDotState extends State<GreenDot>
       parent: _scaleController,
       curve: _curve,
     );
+
+    _movingController = AnimationController(
+      vsync: this,
+      duration: _duration,
+    );
+    _movingAnimation = CurvedAnimation(
+      parent: _movingController,
+      curve: _curve,
+    );
+
     _scaleAnimation.addListener(() {
       setState(() {
         if (_scaleAnimation != null && _scaleAnimation.value != null)
-          scaleValue = _scaleAnimation.value;
-        opacityValue = _scaleAnimation.value;
+          _scaleValue = _scaleAnimation.value;
+        _opacityValue = _scaleAnimation.value;
       });
     });
 
     _scaleController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {}
+      if (status == AnimationStatus.completed) {
+        _movingController.forward(from: 0.0);
+      }
+    });
+
+    _movingController.addListener(() {
+      setState(() {
+        _movingValue = _movingAnimation.value;
+      });
+    });
+
+    _movingController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // _movingController.reset();
+      }
     });
   }
 
@@ -56,10 +84,10 @@ class _GreenDotState extends State<GreenDot>
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 430 * scaleValue;
-      double outerCircleSize = buttonSize + 250 * scaleValue;
-      double midCircleSize = buttonSize - 15 + 75 * scaleValue;
-      double innerCircleSize = buttonSize - 50 + 30 * scaleValue;
+      double outerCircleSize2 = buttonSize + 430 * _scaleValue;
+      double outerCircleSize = buttonSize + 250 * _scaleValue;
+      double midCircleSize = buttonSize - 15 + 75 * _scaleValue;
+      double innerCircleSize = buttonSize - 50 + 30 * _scaleValue;
 
       Tuple2<double, double> originPoint =
           Tuple2(maxWidth / 2, maxHeight - marginBottom);
@@ -97,40 +125,45 @@ class _GreenDotState extends State<GreenDot>
             ),
           ),
           Positioned(
-            left: originPoint.item1 - getXY(-90, 110.0 * scaleValue).item1 - 15,
-            top: originPoint.item2 + getXY(-90, 110.0 * scaleValue).item2 - 15,
+            left:
+                originPoint.item1 - getXY(-90, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 + getXY(-90, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: opacityValue,
+              opacity: _opacityValue,
               child: IconTitle('검색', LineIcons.search),
             ),
           ),
           Positioned(
-            left: originPoint.item1 - getXY(-45, 110.0 * scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-45, 110.0 * scaleValue).item2 - 15,
+            left:
+                originPoint.item1 - getXY(-45, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: opacityValue,
+              opacity: _opacityValue,
               child: IconTitle('내 주변', LineIcons.map_marker),
             ),
           ),
           Positioned(
-            left: originPoint.item1 + getXY(0, 110.0 * scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(0, 110.0 * scaleValue).item2 - 15,
+            left: originPoint.item1 + getXY(0, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(0, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-              opacity: opacityValue,
+              opacity: _opacityValue,
               child: IconTitle('음성', LineIcons.microphone),
             ),
           ),
           Positioned(
-            left: originPoint.item1 + getXY(-45, 110.0 * scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-45, 110.0 * scaleValue).item2 - 15,
+            left:
+                originPoint.item1 + getXY(-45, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-                opacity: opacityValue, child: IconTitle('음악', LineIcons.music)),
+                opacity: _opacityValue,
+                child: IconTitle('음악', LineIcons.music)),
           ),
           Positioned(
-            left: originPoint.item1 + getXY(-90, 110.0 * scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-90, 110.0 * scaleValue).item2 - 15,
+            left:
+                originPoint.item1 + getXY(-90, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-90, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
-                opacity: opacityValue,
+                opacity: _opacityValue,
                 child: IconTitle('렌즈', LineIcons.camera)),
           ),
           Positioned(
@@ -178,10 +211,10 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(90.0 - 90.0 * scaleValue, 200).item1 -
+                getXY(90.0 - 90.0 * _movingValue, 200).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(90.0 - 90.0 * scaleValue, 200).item2 -
+                getXY(90.0 - 90.0 * _movingValue, 200).item2 -
                 15,
             child: Opacity(
               opacity: 1,
@@ -190,10 +223,10 @@ class _GreenDotState extends State<GreenDot>
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(70.0 - 90.0 * scaleValue, 200).item1 -
+                getXY(70.0 - 90.0 * _movingValue, 200).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(70.0 - 90.0 * scaleValue, 200).item2 -
+                getXY(70.0 - 90.0 * _movingValue, 200).item2 -
                 15,
             child: Opacity(
               opacity: 1,
