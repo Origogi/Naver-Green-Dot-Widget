@@ -1,0 +1,11 @@
+name: Flutter
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build Web
+    env:
+      my_secret: $
+    runs-on: ubuntu-latest
