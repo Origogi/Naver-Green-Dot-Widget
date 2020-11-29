@@ -48,7 +48,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     );
     _movingAnimation = CurvedAnimation(
       parent: _movingController,
-      curve: Curves.linear,
+      curve: Curves.ease,
     );
 
     _scaleAnimation.addListener(() {
