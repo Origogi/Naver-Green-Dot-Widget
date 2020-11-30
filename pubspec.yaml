@@ -23,6 +23,9 @@ dev_dependencies:
 
 
 flutter:
+  assets:
+    - images/
+    - images/naver/
 
   plugin:
     platforms:

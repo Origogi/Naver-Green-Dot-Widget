@@ -20,7 +20,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   var _outerIconOpacityValue = 0.0;
 
   var _movingValue = 0.0;
-  final marginBottom = 40.0;
+  final marginBottom = 35.0;
 
   Animation<double> _scaleAnimation;
   AnimationController _scaleController;
@@ -96,7 +96,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 430 * _scaleValue;
+      double outerCircleSize2 = buttonSize + 460 * _scaleValue;
       double outerCircleSize = buttonSize + 250 * _scaleValue;
       double midCircleSize = buttonSize - 15 + 75 * _scaleValue;
       double innerCircleSize = buttonSize - 50 + 30 * _scaleValue;
@@ -138,20 +138,33 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
           ),
           Positioned(
             left:
-                originPoint.item1 - getXY(-90, 110.0 * _scaleValue).item1 - 15,
-            top: originPoint.item2 + getXY(-90, 110.0 * _scaleValue).item2 - 15,
+                originPoint.item1 - getXY(-100, 110.0 * _scaleValue).item1 - 15,
+            top:
+                originPoint.item2 + getXY(-100, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
               opacity: _innerIconOpacityValue,
-              child: IconTitle('검색', LineIcons.search),
+              child: IconTitle(
+                '검색',
+                Icon(
+                  LineIcons.search,
+                  color: mintColor,
+                ),
+              ),
             ),
           ),
           Positioned(
             left:
-                originPoint.item1 - getXY(-45, 110.0 * _scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
+                originPoint.item1 - getXY(-40, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-40, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
               opacity: _innerIconOpacityValue,
-              child: IconTitle('내 주변', LineIcons.map_marker),
+              child: IconTitle(
+                '내 주변',
+                Icon(
+                  LineIcons.map_marker,
+                  color: mintColor,
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -159,89 +172,116 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
             top: originPoint.item2 - getXY(0, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
               opacity: _innerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle(
+                '음성',
+                Icon(
+                  LineIcons.microphone,
+                  color: mintColor,
+                ),
+              ),
             ),
           ),
           Positioned(
             left:
-                originPoint.item1 + getXY(-45, 110.0 * _scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-45, 110.0 * _scaleValue).item2 - 15,
+                originPoint.item1 + getXY(-40, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-40, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
                 opacity: _innerIconOpacityValue,
-                child: IconTitle('음악', LineIcons.music)),
+                child: IconTitle(
+                  '음악',
+                  Icon(
+                    LineIcons.music,
+                    color: mintColor,
+                  ),
+                )),
           ),
           Positioned(
             left:
-                originPoint.item1 + getXY(-90, 110.0 * _scaleValue).item1 - 15,
-            top: originPoint.item2 - getXY(-90, 110.0 * _scaleValue).item2 - 15,
+                originPoint.item1 + getXY(-80, 110.0 * _scaleValue).item1 - 15,
+            top: originPoint.item2 - getXY(-80, 110.0 * _scaleValue).item2 - 15,
             child: Opacity(
                 opacity: _innerIconOpacityValue,
-                child: IconTitle('렌즈', LineIcons.camera)),
+                child: IconTitle(
+                  '렌즈',
+                  Icon(
+                    LineIcons.camera,
+                    color: mintColor,
+                  ),
+                )),
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(-65.0 + 110.0 * _movingValue, 200.0 * _scaleValue).item1 -
+                getXY(-70.0 + 110.0 * _movingValue, 205.0 * _scaleValue).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(-65.0 + 110.0 * _movingValue, 200.0 * _scaleValue).item2 -
+                getXY(-70.0 + 110.0 * _movingValue, 205.0 * _scaleValue).item2 -
                 15,
             child: Opacity(
               opacity: _outerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle(
+                  '주소록',
+                  Image.asset('images/naver/address.png',
+                      package: 'green_dot')),
             ),
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(-87.5 + 110.0 * _movingValue, 200.0 * _scaleValue).item1 -
+                getXY(-90 + 110.0 * _movingValue, 205.0 * _scaleValue).item1 -
                 15,
             top: originPoint.item2 -
-                getXY(-87.5 + 110.0 * _movingValue, 200.0 * _scaleValue).item2 -
+                getXY(-90 + 110.0 * _movingValue, 205.0 * _scaleValue).item2 -
                 15,
             child: Opacity(
               opacity: _outerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle(
+                  '쇼핑',
+                  Image.asset('images/naver/shopping.png',
+                      package: 'green_dot')),
             ),
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(-110.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-110.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item1 -
                 15,
             top: originPoint.item2 -
-                getXY(-110.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-110.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item2 -
                 15,
             child: Opacity(
               opacity: _outerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle('V LIVE',
+                  Image.asset('images/naver/vlive.png', package: 'green_dot')),
             ),
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(-132.5 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-130.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item1 -
                 15,
             top: originPoint.item2 -
-                getXY(-132.5 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-130.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item2 -
                 15,
             child: Opacity(
               opacity: _outerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle('지도',
+                  Image.asset('images/naver/map.png', package: 'green_dot')),
             ),
           ),
           Positioned(
             left: originPoint.item1 -
-                getXY(-155.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-150.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item1 -
                 15,
             top: originPoint.item2 -
-                getXY(-155.0 + 110.0 * _movingValue, 200.0 * _scaleValue)
+                getXY(-150.0 + 110.0 * _movingValue, 205.0 * _scaleValue)
                     .item2 -
                 15,
             child: Opacity(
               opacity: _outerIconOpacityValue,
-              child: IconTitle('음성', LineIcons.microphone),
+              child: IconTitle('페이',
+                  Image.asset('images/naver/pay.png', package: 'green_dot')),
             ),
           ),
           Positioned(
