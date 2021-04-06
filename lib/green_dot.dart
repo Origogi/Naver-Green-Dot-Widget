@@ -90,6 +90,9 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     });
   }
 
+  var initial;
+  var distance;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -109,16 +112,19 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
           Positioned(
             left: originPoint.item1 - outerCircleSize2 / 2,
             top: originPoint.item2 - outerCircleSize2 / 2,
-            child: InkWell(
-              onTap: () {
-                setState(() {
-                  if (isActive) {
-                    _scaleController.reverse();
-                  } else {
-                    _scaleController.forward();
-                  }
-                  isActive = !isActive;
-                });
+            child: GestureDetector(
+              onPanStart: (DragStartDetails details) {
+                initial = details.globalPosition.dx;
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                distance = details.globalPosition.dx - initial;
+              },
+              onPanEnd: (DragEndDetails details) {
+                initial = 0.0;
+                print(distance);
+
+                //+ve distance signifies a drag from left to right(start to end)
+                //-ve distance signifies a drag from right to left(end to start)
               },
               child: Container(
                 decoration: BoxDecoration(
