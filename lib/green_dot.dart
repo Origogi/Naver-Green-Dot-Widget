@@ -90,8 +90,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     });
   }
 
-  var initial;
-  var distance;
+  double current;
+  double distance;
 
   @override
   Widget build(BuildContext context) {
@@ -112,32 +112,17 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
           Positioned(
             left: originPoint.item1 - outerCircleSize2 / 2,
             top: originPoint.item2 - outerCircleSize2 / 2,
-            child: GestureDetector(
-              onPanStart: (DragStartDetails details) {
-                initial = details.globalPosition.dx;
-              },
-              onPanUpdate: (DragUpdateDetails details) {
-                distance = details.globalPosition.dx - initial;
-              },
-              onPanEnd: (DragEndDetails details) {
-                initial = 0.0;
-                print(distance);
-
-                //+ve distance signifies a drag from left to right(start to end)
-                //-ve distance signifies a drag from right to left(end to start)
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle, color: Colors.grey[200]),
-                width: outerCircleSize2,
-                height: outerCircleSize2,
-                child: Center(
-                  child: Container(
-                    width: outerCircleSize,
-                    height: outerCircleSize,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                  ),
+            child: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle, color: Colors.grey[200]),
+              width: outerCircleSize2,
+              height: outerCircleSize2,
+              child: Center(
+                child: Container(
+                  width: outerCircleSize,
+                  height: outerCircleSize,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: Colors.white),
                 ),
               ),
             ),
@@ -330,6 +315,40 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                         end: Alignment.bottomRight,
                         stops: [0.5, 0.6, 1],
                         colors: [greenColor, mintColor, blueColor])),
+              ),
+            ),
+          ),
+          Positioned(
+            left: originPoint.item1 - outerCircleSize2 / 2,
+            top: originPoint.item2 - outerCircleSize2 / 2,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  if (isActive) {
+                    _scaleController.reverse();
+                  } else {
+                    _scaleController.forward();
+                  }
+                  isActive = !isActive;
+                });
+              },
+              onPanStart: (DragStartDetails details) {
+                current = details.globalPosition.dx;
+              },
+              onPanUpdate: (DragUpdateDetails details) {
+                distance = details.globalPosition.dx - current;
+
+                setState(() {
+                  _movingValue -= distance / 300.0;
+                  current = details.globalPosition.dx;
+                });
+              },
+              onPanEnd: (DragEndDetails details) {},
+              child: Container(
+                width: outerCircleSize2,
+                height: outerCircleSize2,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: Colors.transparent),
               ),
             ),
           ),
