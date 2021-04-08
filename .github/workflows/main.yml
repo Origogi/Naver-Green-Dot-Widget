@@ -5,9 +5,8 @@ on:
       - master
 jobs:
   build:
-    name: Build Web
     env:
-      my_secret: ${{secrets.COMMIT_SECRET}}
+      - my_secret: ${{secrets.COMMIT_SECRET}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
