@@ -3,8 +3,6 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      - my_secret: ${{secrets.COMMIT_SECRET}}
     steps:
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
