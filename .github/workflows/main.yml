@@ -17,14 +17,14 @@ jobs:
       - run: flutter config --enable-web
       - run: flutter pub get
       - run: flutter build web --release
-        working-directory: ./example_macos
+        working-directory: ./example
       - run: |
-          cd example_macos/build/web
+          cd example/build/web
           git init
           git config --global user.email rlawjdxo1212@naver.com
           git config --global user.name origogi
           git status
-          git remote add origin https://${{secrets.commit_secret}}@github.com/Origogi/Vertical_Card_Pager.git
+          git remote add origin https://${{secrets.commit_secret}}@github.com/Origogi/Naver-Green-Dot-Widget.git
           git checkout -b gh-pages
           git add --all
           git commit -m "update"
