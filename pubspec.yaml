@@ -26,8 +26,3 @@ flutter:
   assets:
     - images/
     - images/naver/
-
-  plugin:
-    platforms:
-      some_platform:
-        pluginClass: somePluginClass
