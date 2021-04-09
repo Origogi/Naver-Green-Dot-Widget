@@ -25,6 +25,10 @@ Naver Green dot style widget by flutter
 |------|---|------|
 |![004](https://user-images.githubusercontent.com/35194820/100533849-4fa44100-324c-11eb-8c37-a07180c622de.gif)|![ezgif com-gif-maker](https://user-images.githubusercontent.com/35194820/100561251-ad439680-32fb-11eb-9d94-1fb687e1555f.gif)|![1111111](https://user-images.githubusercontent.com/35194820/113716914-072eef80-9726-11eb-9b65-c35f8b47dfac.gif)|
 
+|v0.0.7|||
+|------|---|------|
+|![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/35194820/114135376-1e4b2880-9944-11eb-9b5f-3da4e9fe3173.gif)|||
+
 </div>
 
 ## Web Sample
