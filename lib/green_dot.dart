@@ -20,6 +20,9 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   var _outerIconOpacityValue = 0.0;
 
   var _movingValue = 0.0;
+  var _movingFixedPositionStart = 0.0;
+  var _movingFixedPositionEnd = 0.0;
+
   final marginBottom = 35.0;
 
   Animation<double> _scaleAnimation;
@@ -27,6 +30,11 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
 
   Animation<double> _movingAnimation;
   AnimationController _movingController;
+
+  Animation<double> _movingFixedPositionAnitmation;
+  AnimationController _movingFixedPositionController;
+
+  List<double> fixedPosition = [1 - 0.36, 1 - 0.18, 1, 1.18, 1.36];
 
   @override
   void initState() {
@@ -44,8 +52,19 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 300),
     );
+
     _movingAnimation = CurvedAnimation(
       parent: _movingController,
+      curve: Curves.ease,
+    );
+
+    _movingFixedPositionController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+
+    _movingFixedPositionAnitmation = CurvedAnimation(
+      parent: _movingFixedPositionController,
       curve: Curves.ease,
     );
 
@@ -68,6 +87,23 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
           _innerIconOpacityValue = 0;
           _outerIconOpacityValue = 0;
         }
+      });
+    });
+
+    _movingFixedPositionAnitmation.addListener(() {
+      setState(() {
+        final value = _movingFixedPositionAnitmation.value;
+
+        final diff =
+            (_movingFixedPositionStart - _movingFixedPositionEnd).abs();
+
+        setState(() {
+          if (_movingFixedPositionStart > _movingFixedPositionEnd) {
+            _movingValue = _movingFixedPositionStart - diff * value;
+          } else {
+            _movingValue = _movingFixedPositionStart + diff * value;
+          }
+        });
       });
     });
 
@@ -332,18 +368,43 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                   isActive = !isActive;
                 });
               },
-              onPanStart: (DragStartDetails details) {
+              onHorizontalDragStart: (DragStartDetails details) {
                 current = details.globalPosition.dx;
               },
-              onPanUpdate: (DragUpdateDetails details) {
+              onHorizontalDragUpdate: (DragUpdateDetails details) {
+                print("Drag update");
+
                 distance = details.globalPosition.dx - current;
+                current = details.globalPosition.dx;
 
                 setState(() {
-                  _movingValue -= distance / 300.0;
-                  current = details.globalPosition.dx;
+                  final calcDistance = _movingValue -
+                      double.parse((distance / 300.0).toStringAsFixed(2));
+
+                  _movingValue = calcDistance;
                 });
               },
-              onPanEnd: (DragEndDetails details) {},
+              onHorizontalDragEnd: (DragEndDetails details) {
+                print("Drag end");
+
+                final calcDistance = _movingValue -
+                    double.parse((distance / 300.0).toStringAsFixed(2));
+
+                double target = fixedPosition[0];
+                double targetDiff = (calcDistance - target).abs();
+
+                for (num d in fixedPosition) {
+                  if ((d - calcDistance).abs() < targetDiff) {
+                    target = d;
+                    targetDiff = (d - calcDistance).abs();
+                  }
+                }
+
+                _movingFixedPositionStart = _movingValue;
+                _movingFixedPositionEnd = target;
+                _movingFixedPositionController.reset();
+                _movingFixedPositionController.forward();
+              },
               child: Container(
                 width: outerCircleSize2,
                 height: outerCircleSize2,
