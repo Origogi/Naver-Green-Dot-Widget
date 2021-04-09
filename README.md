@@ -27,9 +27,7 @@ Naver Green dot style widget by flutter
 
 </div>
 
-### Web Sample
-
-### Web
+## Web Sample
 
 <div align="center">
     <img src="https://user-images.githubusercontent.com/35194820/113992970-eb932880-988e-11eb-8464-69a0145d3e08.png">
