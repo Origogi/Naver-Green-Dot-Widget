@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:green_dot/constants.dart';
 
 class IconTitle extends StatelessWidget {
   String _title;

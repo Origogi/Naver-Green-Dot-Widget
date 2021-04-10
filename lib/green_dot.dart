@@ -12,6 +12,8 @@ class GreenDot extends StatefulWidget {
 }
 
 class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
+  static const double MARGIN_BOTTOM = 35.0;
+
   final buttonSize = 60.0;
 
   var isActive = false;
@@ -23,8 +25,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   var _fixedPositionStart = 0.0;
   var _fixedPositionEnd = 0.0;
 
-  final marginBottom = 35.0;
-
   Animation<double> _scaleAnimation;
   AnimationController _scaleController;
 
@@ -34,11 +34,28 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   Animation<double> _movingFixedPositionAnitmation;
   AnimationController _movingFixedPositionController;
 
-  List<double> fixedPosition = [1 - 0.36, 1 - 0.18, 1, 1.18, 1.36];
+  double current;
+  double distance;
+
+  List<double> _fixedPosition;
+
+  void initFixedPosition(int count) {
+    int remain = count;
+    var value = 1.0 - 0.18 * (count ~/ 2);
+    _fixedPosition = [];
+
+    while (remain > 0) {
+      _fixedPosition.add(value);
+      value += 0.18;
+      remain--;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    initFixedPosition(5);
+
     _scaleController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -125,9 +142,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
     });
   }
 
-  double current;
-  double distance;
-
   List<Widget> getInnerCircleIcons(Tuple2<double, double> originPoint) {
     return [
       Positioned(
@@ -202,13 +216,15 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   }
 
   List<Widget> getOuterCircleIcons(Tuple2<double, double> originPoint) {
+    final radius = 205.0 * _scaleValue;
+
     return [
       Positioned(
         left: originPoint.item1 -
-            getXY(-70.0 + 110.0 * _position, 205.0 * _scaleValue).item1 -
+            getXY(-70.0 + 110.0 * _position, radius).item1 -
             15,
         top: originPoint.item2 -
-            getXY(-70.0 + 110.0 * _position, 205.0 * _scaleValue).item2 -
+            getXY(-70.0 + 110.0 * _position, radius).item2 -
             15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
@@ -218,10 +234,10 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       ),
       Positioned(
         left: originPoint.item1 -
-            getXY(-90 + 110.0 * _position, 205.0 * _scaleValue).item1 -
+            getXY(-90 + 110.0 * _position, radius).item1 -
             15,
         top: originPoint.item2 -
-            getXY(-90 + 110.0 * _position, 205.0 * _scaleValue).item2 -
+            getXY(-90 + 110.0 * _position, radius).item2 -
             15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
@@ -231,10 +247,10 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       ),
       Positioned(
         left: originPoint.item1 -
-            getXY(-110.0 + 110.0 * _position, 205.0 * _scaleValue).item1 -
+            getXY(-110.0 + 110.0 * _position, radius).item1 -
             15,
         top: originPoint.item2 -
-            getXY(-110.0 + 110.0 * _position, 205.0 * _scaleValue).item2 -
+            getXY(-110.0 + 110.0 * _position, radius).item2 -
             15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
@@ -244,10 +260,10 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       ),
       Positioned(
         left: originPoint.item1 -
-            getXY(-130.0 + 110.0 * _position, 205.0 * _scaleValue).item1 -
+            getXY(-130.0 + 110.0 * _position, radius).item1 -
             15,
         top: originPoint.item2 -
-            getXY(-130.0 + 110.0 * _position, 205.0 * _scaleValue).item2 -
+            getXY(-130.0 + 110.0 * _position, radius).item2 -
             15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
@@ -257,10 +273,10 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       ),
       Positioned(
         left: originPoint.item1 -
-            getXY(-150.0 + 110.0 * _position, 205.0 * _scaleValue).item1 -
+            getXY(-150.0 + 110.0 * _position, radius).item1 -
             15,
         top: originPoint.item2 -
-            getXY(-150.0 + 110.0 * _position, 205.0 * _scaleValue).item2 -
+            getXY(-150.0 + 110.0 * _position, radius).item2 -
             15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
@@ -283,7 +299,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       double innerCircleSize = buttonSize - 50 + 30 * _scaleValue;
 
       Tuple2<double, double> originPoint =
-          Tuple2(maxWidth / 2, maxHeight - marginBottom);
+          Tuple2(maxWidth / 2, maxHeight - MARGIN_BOTTOM);
 
       return Stack(
         children: [
@@ -382,10 +398,10 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
               onHorizontalDragEnd: (DragEndDetails details) {
                 print("Drag end");
 
-                double target = fixedPosition[0];
+                double target = _fixedPosition[0];
                 double targetDiff = (_position - target).abs();
 
-                for (num d in fixedPosition) {
+                for (num d in _fixedPosition) {
                   if ((d - _position).abs() < targetDiff) {
                     target = d;
                     targetDiff = (d - _position).abs();
