@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class IconTitleData {
+  final String imageUri;
+  final String title;
+
+  IconTitleData(this.imageUri, this.title);
+}
+
 class IconTitle extends StatelessWidget {
   String _title;
   Widget _image;
@@ -20,10 +27,6 @@ class IconTitle extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.fill,
             child: _image,
-            // child: Icon(
-            //   _iconData,
-            //   color: mintColor,
-            // ),
           ),
         ),
         SizedBox(

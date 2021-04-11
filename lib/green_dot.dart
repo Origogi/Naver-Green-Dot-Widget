@@ -38,6 +38,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   double distance;
 
   List<double> _fixedPosition;
+  List<IconTitleData> _outerIconTitleDataList;
 
   void initFixedPosition(int count) {
     int remain = count;
@@ -140,6 +141,14 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
         _position = _movingAnimation.value;
       });
     });
+
+    _outerIconTitleDataList = [
+      IconTitleData('images/naver/address.png', '주소록'),
+      IconTitleData('images/naver/shopping.png', '쇼핑'),
+      IconTitleData('images/naver/vlive.png', 'V LIVE'),
+      IconTitleData('images/naver/map.png', '지도'),
+      IconTitleData('images/naver/pay.png', '페이'),
+    ];
   }
 
   List<Widget> getInnerCircleIcons(Tuple2<double, double> originPoint) {
@@ -218,73 +227,26 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   List<Widget> getOuterCircleIcons(Tuple2<double, double> originPoint) {
     final radius = 205.0 * _scaleValue;
 
-    return [
-      Positioned(
-        left: originPoint.item1 -
-            getXY(-70.0 + 110.0 * _position, radius).item1 -
-            15,
-        top: originPoint.item2 -
-            getXY(-70.0 + 110.0 * _position, radius).item2 -
-            15,
+    List<Widget> outerIconList = [];
+
+    var degree = -110.0 + 20.0 * (_outerIconTitleDataList.length ~/ 2);
+
+    for (final iconTitleData in _outerIconTitleDataList) {
+      final tuple = getXY(degree + 110.0 * _position, radius);
+
+      outerIconList.add(Positioned(
+        left: originPoint.item1 - tuple.item1 - 15,
+        top: originPoint.item2 - tuple.item2 - 15,
         child: Opacity(
           opacity: _outerIconOpacityValue,
-          child: IconTitle('주소록',
-              Image.asset('images/naver/address.png', package: 'green_dot')),
+          child: IconTitle(iconTitleData.title,
+              Image.asset(iconTitleData.imageUri, package: 'green_dot')),
         ),
-      ),
-      Positioned(
-        left: originPoint.item1 -
-            getXY(-90 + 110.0 * _position, radius).item1 -
-            15,
-        top: originPoint.item2 -
-            getXY(-90 + 110.0 * _position, radius).item2 -
-            15,
-        child: Opacity(
-          opacity: _outerIconOpacityValue,
-          child: IconTitle('쇼핑',
-              Image.asset('images/naver/shopping.png', package: 'green_dot')),
-        ),
-      ),
-      Positioned(
-        left: originPoint.item1 -
-            getXY(-110.0 + 110.0 * _position, radius).item1 -
-            15,
-        top: originPoint.item2 -
-            getXY(-110.0 + 110.0 * _position, radius).item2 -
-            15,
-        child: Opacity(
-          opacity: _outerIconOpacityValue,
-          child: IconTitle('V LIVE',
-              Image.asset('images/naver/vlive.png', package: 'green_dot')),
-        ),
-      ),
-      Positioned(
-        left: originPoint.item1 -
-            getXY(-130.0 + 110.0 * _position, radius).item1 -
-            15,
-        top: originPoint.item2 -
-            getXY(-130.0 + 110.0 * _position, radius).item2 -
-            15,
-        child: Opacity(
-          opacity: _outerIconOpacityValue,
-          child: IconTitle(
-              '지도', Image.asset('images/naver/map.png', package: 'green_dot')),
-        ),
-      ),
-      Positioned(
-        left: originPoint.item1 -
-            getXY(-150.0 + 110.0 * _position, radius).item1 -
-            15,
-        top: originPoint.item2 -
-            getXY(-150.0 + 110.0 * _position, radius).item2 -
-            15,
-        child: Opacity(
-          opacity: _outerIconOpacityValue,
-          child: IconTitle(
-              '페이', Image.asset('images/naver/pay.png', package: 'green_dot')),
-        ),
-      ),
-    ];
+      ));
+
+      degree -= 20.0;
+    }
+    return outerIconList;
   }
 
   @override
