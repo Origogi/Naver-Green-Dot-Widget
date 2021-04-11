@@ -22,15 +22,15 @@ class IconTitle extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 30,
-          width: 30,
+          height: 35,
+          width: 35,
           child: FittedBox(
             fit: BoxFit.fill,
             child: _image,
           ),
         ),
         SizedBox(
-          height: 5,
+          height: 10,
         ),
         Text(
           _title,

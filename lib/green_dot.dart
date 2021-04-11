@@ -38,18 +38,23 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   double distance;
 
   List<double> _fixedPosition;
+  double maxPosition;
+  double minPosition;
+
   List<IconTitleData> _outerIconTitleDataList;
 
   void initFixedPosition(int count) {
     int remain = count;
-    var value = 1.0 - 0.18 * (count ~/ 2);
+    var value = 1.0 - 0.17 * (count ~/ 2);
     _fixedPosition = [];
 
     while (remain > 0) {
       _fixedPosition.add(value);
-      value += 0.18;
+      value += 0.17;
       remain--;
     }
+    minPosition = _fixedPosition[0] - 0.08;
+    maxPosition = _fixedPosition[_fixedPosition.length - 1] + 0.08;
   }
 
   @override
@@ -154,8 +159,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   List<Widget> getInnerCircleIcons(Tuple2<double, double> originPoint) {
     return [
       Positioned(
-        left: originPoint.item1 - getXY(-100, 110.0 * _scaleValue).item1 - 15,
-        top: originPoint.item2 + getXY(-100, 110.0 * _scaleValue).item2 - 15,
+        left: originPoint.item1 - getXY(-100, 140.0 * _scaleValue).item1 - 15,
+        top: originPoint.item2 + getXY(-100, 140.0 * _scaleValue).item2 - 15,
         child: Opacity(
           opacity: _innerIconOpacityValue,
           child: IconTitle(
@@ -168,8 +173,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
         ),
       ),
       Positioned(
-        left: originPoint.item1 - getXY(-40, 110.0 * _scaleValue).item1 - 15,
-        top: originPoint.item2 - getXY(-40, 110.0 * _scaleValue).item2 - 15,
+        left: originPoint.item1 - getXY(-40, 140.0 * _scaleValue).item1 - 15,
+        top: originPoint.item2 - getXY(-40, 140.0 * _scaleValue).item2 - 15,
         child: Opacity(
           opacity: _innerIconOpacityValue,
           child: IconTitle(
@@ -182,8 +187,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
         ),
       ),
       Positioned(
-        left: originPoint.item1 + getXY(0, 110.0 * _scaleValue).item1 - 15,
-        top: originPoint.item2 - getXY(0, 110.0 * _scaleValue).item2 - 15,
+        left: originPoint.item1 + getXY(0, 140.0 * _scaleValue).item1 - 15,
+        top: originPoint.item2 - getXY(0, 140.0 * _scaleValue).item2 - 15,
         child: Opacity(
           opacity: _innerIconOpacityValue,
           child: IconTitle(
@@ -196,8 +201,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
         ),
       ),
       Positioned(
-        left: originPoint.item1 + getXY(-40, 110.0 * _scaleValue).item1 - 15,
-        top: originPoint.item2 - getXY(-40, 110.0 * _scaleValue).item2 - 15,
+        left: originPoint.item1 + getXY(-40, 140.0 * _scaleValue).item1 - 15,
+        top: originPoint.item2 - getXY(-40, 140.0 * _scaleValue).item2 - 15,
         child: Opacity(
             opacity: _innerIconOpacityValue,
             child: IconTitle(
@@ -209,8 +214,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
             )),
       ),
       Positioned(
-        left: originPoint.item1 + getXY(-80, 110.0 * _scaleValue).item1 - 15,
-        top: originPoint.item2 - getXY(-80, 110.0 * _scaleValue).item2 - 15,
+        left: originPoint.item1 + getXY(-80, 140.0 * _scaleValue).item1 - 15,
+        top: originPoint.item2 - getXY(-80, 140.0 * _scaleValue).item2 - 15,
         child: Opacity(
             opacity: _innerIconOpacityValue,
             child: IconTitle(
@@ -225,11 +230,11 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   }
 
   List<Widget> getOuterCircleIcons(Tuple2<double, double> originPoint) {
-    final radius = 205.0 * _scaleValue;
+    final radius = 270.0 * _scaleValue;
 
     List<Widget> outerIconList = [];
 
-    var degree = -110.0 + 20.0 * (_outerIconTitleDataList.length ~/ 2);
+    var degree = -110.0 + 16.0 * (_outerIconTitleDataList.length ~/ 2);
 
     for (final iconTitleData in _outerIconTitleDataList) {
       final tuple = getXY(degree + 110.0 * _position, radius);
@@ -244,7 +249,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
         ),
       ));
 
-      degree -= 20.0;
+      degree -= 16.0;
     }
     return outerIconList;
   }
@@ -255,8 +260,8 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       double maxHeight = constraints.maxHeight;
       double maxWidth = constraints.maxWidth;
 
-      double outerCircleSize2 = buttonSize + 460 * _scaleValue;
-      double outerCircleSize = buttonSize + 250 * _scaleValue;
+      double outerCircleSize2 = buttonSize + 570 * _scaleValue;
+      double outerCircleSize = buttonSize + 350 * _scaleValue;
       double midCircleSize = buttonSize - 15 + 75 * _scaleValue;
       double innerCircleSize = buttonSize - 50 + 30 * _scaleValue;
 
@@ -352,7 +357,13 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 current = details.globalPosition.dx;
 
                 setState(() {
-                  final calcDistance = _position - (distance / 300.0);
+                  var calcDistance = _position - (distance / 300.0);
+
+                  if (calcDistance > maxPosition) {
+                    calcDistance = maxPosition;
+                  } else if (calcDistance < minPosition) {
+                    calcDistance = minPosition;
+                  }
 
                   _position = calcDistance;
                 });
