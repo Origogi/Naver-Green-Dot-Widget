@@ -44,13 +44,13 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   List<IconTitleData> _outerIconTitleDataList;
 
   void initFixedPosition(int count) {
-    int remain = count;
-    var value = 1.0 - 0.17 * (count ~/ 2);
+    int remain = count - 4;
+    var value = 1.0 - 0.145 * (remain ~/ 2);
     _fixedPosition = [];
 
     while (remain > 0) {
       _fixedPosition.add(value);
-      value += 0.17;
+      value += 0.145;
       remain--;
     }
     minPosition = _fixedPosition[0] - 0.08;
@@ -60,7 +60,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    initFixedPosition(5);
 
     _scaleController = AnimationController(
       vsync: this,
@@ -141,19 +140,26 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       }
     });
 
-    _movingController.addListener(() {
-      setState(() {
-        _position = _movingAnimation.value;
-      });
-    });
-
     _outerIconTitleDataList = [
       IconTitleData('images/naver/address.png', '주소록'),
       IconTitleData('images/naver/shopping.png', '쇼핑'),
       IconTitleData('images/naver/vlive.png', 'V LIVE'),
       IconTitleData('images/naver/map.png', '지도'),
       IconTitleData('images/naver/pay.png', '페이'),
+      IconTitleData('images/naver/webtoon.png', '웹툰'),
+      IconTitleData('images/naver/stock.png', '주식'),
+      IconTitleData('images/naver/note.png', '쪽지'),
+      IconTitleData('images/naver/papago.png', '파파고'),
+      IconTitleData('images/naver/calendar.png', '일정'),
     ];
+
+    initFixedPosition(_outerIconTitleDataList.length);
+
+    _movingController.addListener(() {
+      setState(() {
+        _position = _fixedPosition[0] * _movingAnimation.value;
+      });
+    });
   }
 
   List<Widget> getInnerCircleIcons(Tuple2<double, double> originPoint) {
