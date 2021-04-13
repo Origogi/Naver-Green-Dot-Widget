@@ -159,7 +159,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
       setState(() {
         _position = _fixedPosition[0] * _movingAnimation.value +
             (_movingAnimation.value - 1.0);
-        print(_position);
       });
     });
   }
@@ -359,8 +358,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 current = details.globalPosition.dx;
               },
               onHorizontalDragUpdate: (DragUpdateDetails details) {
-                print("Drag update");
-
                 distance = details.globalPosition.dx - current;
                 current = details.globalPosition.dx;
 
@@ -377,8 +374,6 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
                 });
               },
               onHorizontalDragEnd: (DragEndDetails details) {
-                print("Drag end");
-
                 double target = _fixedPosition[0];
                 double targetDiff = (_position - target).abs();
 
