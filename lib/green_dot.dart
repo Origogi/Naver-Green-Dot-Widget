@@ -21,7 +21,7 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
   var _innerIconOpacityValue = 0.0;
   var _outerIconOpacityValue = 0.0;
 
-  var _position = 0.0;
+  var _position = -1.0;
   var _fixedPositionStart = 0.0;
   var _fixedPositionEnd = 0.0;
 
@@ -157,7 +157,9 @@ class _GreenDotState extends State<GreenDot> with TickerProviderStateMixin {
 
     _movingController.addListener(() {
       setState(() {
-        _position = _fixedPosition[0] * _movingAnimation.value;
+        _position = _fixedPosition[0] * _movingAnimation.value +
+            (_movingAnimation.value - 1.0);
+        print(_position);
       });
     });
   }
